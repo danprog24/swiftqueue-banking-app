@@ -1,5 +1,7 @@
 package com.dannycode.AuthDTOs;
 
+import com.dannycode.user.Role;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +11,8 @@ public class RegisterRequest {
 
     private String fullname;
     private String email;
-    private Integer phone;
+    private String phone;
     private String password;
+    private Role role;
 
 }

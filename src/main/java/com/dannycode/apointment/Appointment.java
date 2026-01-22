@@ -31,9 +31,10 @@ public class Appointment {
     @ManyToOne(optional = false)
     private ServiceEntity service;
 
-    private LocalDateTime appointmentDate;
+    private LocalDateTime scheduledAt;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private AppointmentStatus status = AppointmentStatus.BOOKED;
 
     private LocalDateTime createdAt ;

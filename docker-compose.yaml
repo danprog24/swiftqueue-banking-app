@@ -1,22 +1,76 @@
+# # services:
+# #   db:
+# #     image: postgres:latest
+# #     container_name: postgres-job-board
+# #     environment:
+# #       POSTGRES_USER: dannycode
+# #       POSTGRES_PASSWORD: 35354467
+# #       POSTGRES_DB: swiftqueue
+# #     ports:
+# #       - "5443:5432"  # host:container mapping
+# #     volumes:
+# #       - db:/var/lib/postgresql/data
+# #     networks:
+# #       - db
+# #     restart: unless-stopped
+# # networks:
+# #   jobboard-net:
+# #     driver: bridge
+
+# # volumes:
+# #   db:
+
+
+
+
+
+
+# services:
+#   db:
+#     image: postgres:latest
+#     container_name: swiftqueue-postgres
+#     environment:
+#       POSTGRES_USER: ${POSTGRES_USER}
+#       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#       POSTGRES_DB: ${POSTGRES_DB}
+#     ports:
+#       - "5443:5432"
+#     volumes:
+#       - db:/var/lib/postgresql/data
+#     networks:
+#       - swiftqueue-net
+#     restart: unless-stopped
+
+# networks:
+#   swiftqueue-net:
+#     driver: bridge
+
+# volumes:
+#   db:
+
+
+
+
+
+
+
 services:
   db:
     image: postgres:latest
-    container_name: postgres-job-board
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+    container_name: swiftqueue-postgres
+    env_file:
+      - .env
     ports:
-      - "5443:5432"  # host:container mapping
+      - "5443:5432"
     volumes:
-      - db:/var/lib/postgresql/data
+      - swiftqueue-db:/var/lib/postgresql/data
     networks:
-      - jobboard-net
+      - swiftqueue-net
     restart: unless-stopped
+
 networks:
-  jobboard-net:
+  swiftqueue-net:
     driver: bridge
 
 volumes:
-  db:
-
+  swiftqueue-db:

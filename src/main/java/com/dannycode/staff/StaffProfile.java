@@ -1,18 +1,17 @@
 package com.dannycode.staff;
 
+import com.dannycode.branch.Branch;
+import com.dannycode.service.ServiceEntity;
+import com.dannycode.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Set;
 
-import com.dannycode.branch.Branch;
-import com.dannycode.user.User;
-import com.dannycode.service.ServiceEntity;
-
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Table(name = "staff_profiles")
 public class StaffProfile {
@@ -21,26 +20,24 @@ public class StaffProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "user_id")
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "branch_id")
     private Branch branch;
 
-
-    
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "staff_services",
-            joinColumns = @JoinColumn(name = "staff_id"),
-            inverseJoinColumns = @JoinColumn(name = "service_id")
+        name = "staff_services",
+        joinColumns = @JoinColumn(name = "staff_profile_id"),
+        inverseJoinColumns = @JoinColumn(name = "service_id")
     )
     private Set<ServiceEntity> servicesHandled;
 
-    private Boolean isAvailable = true;
+    @Column(nullable = false)
+    private boolean available;
 
     private Integer avgServiceTimeMinutes;
-
 }

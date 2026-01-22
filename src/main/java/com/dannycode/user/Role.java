@@ -2,7 +2,7 @@ package com.dannycode.user;
 
 public enum Role {
 
-    USER,
+    CUSTOMER,
     STAFF,
     ADMIN
 

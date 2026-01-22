@@ -8,6 +8,6 @@ public interface StaffProfileRepo extends JpaRepository<StaffProfile, Long> {
 
     List<StaffProfile> findByBranchId(Long branchId);
 
-    List<StaffProfile> findByIsAvailableTrue();
+    List<StaffProfile> findByAvailableTrue();
 
 }
