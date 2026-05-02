@@ -47,6 +47,13 @@ public class User {
     @Builder.Default
     private boolean locked = false;
 
+    @Column(nullable = false)
+    @Builder.Default
+    private int failedLoginAttempts = 0;
+
+    @Column
+    private LocalDateTime lockedAt;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -63,5 +70,4 @@ public class User {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
 }
