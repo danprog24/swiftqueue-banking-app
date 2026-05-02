@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 @Builder
 public class RegisterResponse {
     private String token;
+    private String refreshToken;
+    private long expiresIn;
     private String email;
     private String accountNumber;
     private AccountType accountType;
