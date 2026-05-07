@@ -8,6 +8,7 @@ import com.dannycode.model.*;
 import com.dannycode.repository.BankAccRepo;
 import com.dannycode.repository.TransactionRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +29,7 @@ public class TransactionService {
         BankAcc account = getMyAccount();
 
         account.setBalance(account.getBalance().add(request.getAmount()));
+        bankAccRepo.save(account);
 
         Transaction transaction = Transaction.builder()
                 .senderAccount(account)
@@ -40,6 +42,7 @@ public class TransactionService {
         return mapToResponse(transactionRepo.save(transaction));
     }
 
+    @CacheEvict(value = {"transactionHistory" , "accountBalance"}, allEntries = true)
     @Transactional
     public TransactionResponse withdraw(TransactionRequest request) {
 
@@ -50,6 +53,7 @@ public class TransactionService {
         }
 
         account.setBalance(account.getBalance().subtract(request.getAmount()));
+        bankAccRepo.save(account);
 
         Transaction transaction = Transaction.builder()
                 .senderAccount(account)
@@ -84,6 +88,9 @@ public class TransactionService {
 
         sender.setBalance(sender.getBalance().subtract(request.getAmount()));
         receiver.setBalance(receiver.getBalance().add(request.getAmount()));
+        
+        bankAccRepo.save(sender);
+        bankAccRepo.save(receiver);
 
         Transaction transaction = Transaction.builder()
                 .senderAccount(sender)

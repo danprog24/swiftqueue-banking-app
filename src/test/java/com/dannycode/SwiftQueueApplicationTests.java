@@ -11,7 +11,11 @@ import org.springframework.test.context.TestPropertySource;
     "PAYSTACK_SECRET_KEY=sk_test_dummy",
     "PAYSTACK_BASE_URL=https://api.paystack.co",
     "SENDGRID_API_KEY=SG.dummy",
-    "SENDGRID_FROM_EMAIL=test@test.com"
+    "SENDGRID_FROM_EMAIL=test@test.com",
+    "SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5445/swiftqueue_db",
+    "SPRING_DATASOURCE_USERNAME=dannycode",
+    "SPRING_DATASOURCE_PASSWORD=35354467",
+    "JWT_SECRET=8fKp2mNqR5vXwZ9cLjYtA4eUhB7dG1nPoWs6iVfE3yMx0QrJkCuDlHbTgSz"
 })
 class SwiftQueueApplicationTests {
 

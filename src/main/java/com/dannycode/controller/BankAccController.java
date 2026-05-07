@@ -16,7 +16,7 @@ public class BankAccController {
 
     private final BankAccService bankAccountService;
 
-    @GetMapping("/my")
+    @GetMapping("/balance")
     public ResponseEntity<List<AccResponse>> getMyAccounts() {
         return ResponseEntity.ok(bankAccountService.getMyAccounts());
     }

@@ -8,6 +8,7 @@ import com.dannycode.repository.BankAccRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -35,6 +36,26 @@ public class BankAccService {
 
         account.setAccountType(request.getAccountType());
         bankAccRepo.save(account);
+        return mapToResponse(account);
+    }
+
+
+    public AccResponse getBalance() {
+        Long userId = getAuthenticatedUserId();
+        BankAcc account = bankAccRepo.findByUserId(userId)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No bank account found"));
+        return mapToResponse(account);
+    }
+
+
+    @Cacheable(value = "accountBalance", key = "#userId")
+    public AccResponse getBalanceByUserId(Long userId) {
+        BankAcc account = bankAccRepo.findByUserId(userId)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No bank account found"));
         return mapToResponse(account);
     }
 
