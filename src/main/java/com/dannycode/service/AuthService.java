@@ -96,20 +96,20 @@ public class AuthService {
                 .build();
     }
 
-   public AuthResponse refreshToken(String token) {
-    RefreshToken refreshToken = refreshTokenService.verifyRefreshToken(token);
-    User user = refreshToken.getUser();
+    public AuthResponse refreshToken(String token) {
+        RefreshToken refreshToken = refreshTokenService.verifyRefreshToken(token);
+        User user = refreshToken.getUser();
 
-    String newAccessToken = jwtUtil.generateToken(user.getEmail());
-    RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user);
+        String newAccessToken = jwtUtil.generateToken(user.getEmail());
+        RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user);
 
-    return AuthResponse.builder()
-            .accessToken(newAccessToken)
-            .refreshToken(newRefreshToken.getToken())
-            .expiresIn(1800L) // 30 minutes in seconds
-            .email(user.getEmail())
-            .build();
-}
+        return AuthResponse.builder()
+                .accessToken(newAccessToken)
+                .refreshToken(newRefreshToken.getToken())
+                .expiresIn(1800L) // 30 minutes in seconds
+                .email(user.getEmail())
+                .build();
+    }
 
     public void logout(String token) {
         RefreshToken refreshToken = refreshTokenService.verifyRefreshToken(token);
@@ -121,31 +121,31 @@ public class AuthService {
     }
 
     public void changePassword(ChangePasswordRequest request) {
-    Long userId = getAuthenticatedUserId();
-    User user = userRepo.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+        Long userId = getAuthenticatedUserId();
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-    if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-        throw new RuntimeException("Current password is incorrect");
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new RuntimeException("Current password is incorrect");
+        }
+
+        if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+            throw new RuntimeException("Passwords do not match");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepo.save(user);
+
+        // Revoke refresh token so user has to login again
+        refreshTokenService.revokeRefreshToken(user);
     }
 
-    if (!request.getNewPassword().equals(request.getConfirmPassword())) {
-        throw new RuntimeException("Passwords do not match");
+    private Long getAuthenticatedUserId() {
+        CustomUserDetails userDetails = (CustomUserDetails)
+                SecurityContextHolder.getContext()
+                        .getAuthentication()
+                        .getPrincipal();
+        return userDetails.getUserId();
     }
-
-    user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-    userRepo.save(user);
-
-    // Revoke refresh token so user has to login again
-    refreshTokenService.revokeRefreshToken(user);
-}
-
-private Long getAuthenticatedUserId() {
-    CustomUserDetails userDetails = (CustomUserDetails)
-            SecurityContextHolder.getContext()
-                    .getAuthentication()
-                    .getPrincipal();
-    return userDetails.getUserId();
-}
 
 }

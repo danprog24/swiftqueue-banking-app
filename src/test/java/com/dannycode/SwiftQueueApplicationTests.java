@@ -15,7 +15,9 @@ import org.springframework.test.context.TestPropertySource;
     "SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5445/swiftqueue_db",
     "SPRING_DATASOURCE_USERNAME=dannycode",
     "SPRING_DATASOURCE_PASSWORD=35354467",
-    "JWT_SECRET=8fKp2mNqR5vXwZ9cLjYtA4eUhB7dG1nPoWs6iVfE3yMx0QrJkCuDlHbTgSz"
+    "JWT_SECRET=8fKp2mNqR5vXwZ9cLjYtA4eUhB7dG1nPoWs6iVfE3yMx0QrJkCuDlHbTgSz",
+    "REDIS_HOST=localhost",
+    "REDIS_PORT=6379"
 })
 class SwiftQueueApplicationTests {
 

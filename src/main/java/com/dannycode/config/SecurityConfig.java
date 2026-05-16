@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final RateLimitFilter rateLimitFilter;
     private final JwtAuthFilter jwtAuthFilter;
 
     @Bean
@@ -30,9 +31,11 @@ public class SecurityConfig {
                     .requestMatchers(
                             "/api/v1/auth/**"
                     ).permitAll()
-                    .requestMatchers("/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
             )
+            .addFilterBefore(rateLimitFilter, 
+                    UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(jwtAuthFilter,
                     UsernamePasswordAuthenticationFilter.class);
 
