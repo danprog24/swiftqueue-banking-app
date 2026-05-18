@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 public class AccResponse {
 
     private Long id;
+    private String fullName;
+    private String email;
     private String accountNumber;
     private AccountType accountType;
     private BigDecimal balance;

@@ -42,7 +42,7 @@ class BankAccServiceTest {
     void setUp() {
         testUser = User.builder()
                 .id(1L)
-                .fullname("John Doe")
+                .fullName("John Doe")
                 .email("john@example.com")
                 .phone("08012345678")
                 .password("encodedPassword")

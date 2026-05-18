@@ -29,7 +29,7 @@ public class EmailService {
         String subject = "Deposit Successful";
         String body = String.format(
                 "Dear %s,\n\nYour deposit of ₦%.2f was successful.\nNew balance: ₦%.2f\n\nThank you for banking with SwiftQueue.",
-                user.getFullname(), amount, balance
+                user.getFullName(), amount, balance
         );
         sendAndLog(user, subject, body, EmailType.DEPOSIT);
     }
@@ -39,7 +39,7 @@ public class EmailService {
         String subject = "Withdrawal Successful";
         String body = String.format(
                 "Dear %s,\n\nYour withdrawal of ₦%.2f was successful.\nNew balance: ₦%.2f\n\nThank you for banking with SwiftQueue.",
-                user.getFullname(), amount, balance
+                user.getFullName(), amount, balance
         );
         sendAndLog(user, subject, body, EmailType.WITHDRAWAL);
     }
@@ -49,7 +49,7 @@ public class EmailService {
         String subject = "Transfer Successful";
         String body = String.format(
                 "Dear %s,\n\nYour transfer of ₦%.2f to account %s was successful.\nNew balance: ₦%.2f\n\nThank you for banking with SwiftQueue.",
-                user.getFullname(), amount, receiverAccount, balance
+                user.getFullName(), amount, receiverAccount, balance
         );
         sendAndLog(user, subject, body, EmailType.TRANSFER);
     }
@@ -59,7 +59,7 @@ public class EmailService {
         String subject = "Transfer Received";
         String body = String.format(
                 "Dear %s,\n\nYou received ₦%.2f from account %s.\n\nThank you for banking with SwiftQueue.",
-                user.getFullname(), amount, senderAccount
+                user.getFullName(), amount, senderAccount
         );
         sendAndLog(user, subject, body, EmailType.TRANSFER_RECEIVED);
     }
@@ -69,7 +69,7 @@ public class EmailService {
         String subject = "Password Changed";
         String body = String.format(
                 "Dear %s,\n\nYour password was changed successfully.\nIf you did not do this, contact support immediately.",
-                user.getFullname()
+                user.getFullName()
         );
         sendAndLog(user, subject, body, EmailType.PASSWORD_CHANGED);
     }
@@ -79,7 +79,7 @@ public class EmailService {
         String subject = "Account Locked";
         String body = String.format(
                 "Dear %s,\n\nYour account has been locked due to too many failed login attempts.\nContact support to unlock.",
-                user.getFullname()
+                user.getFullName()
         );
         sendAndLog(user, subject, body, EmailType.ACCOUNT_LOCKED);
     }
